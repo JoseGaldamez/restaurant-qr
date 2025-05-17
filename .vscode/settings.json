@@ -1,0 +1,25 @@
+{
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "workbench.colorCustomizations": {
+    "commandCenter.border": "#15202b99",
+    "sash.hoverBorder": "#c5cfb7",
+    "statusBar.background": "#acba99",
+    "statusBar.foreground": "#15202b",
+    "statusBarItem.hoverBackground": "#93a57b",
+    "statusBarItem.remoteBackground": "#acba99",
+    "statusBarItem.remoteForeground": "#15202b",
+    "titleBar.activeBackground": "#acba99",
+    "titleBar.activeForeground": "#15202b",
+    "titleBar.inactiveBackground": "#acba9999",
+    "titleBar.inactiveForeground": "#15202b99"
+  },
+  "peacock.color": "#acba99",
+  "prettier.enable": true,
+  "prettier.enableDebugLogs": false,
+  "prettier.enableQuickFixes": false,
+  "prettier.requireConfig": false,
+  "prettier.ignorePath": ".prettierignore",
+  "editor.formatOnSave": true,
+  "prettier.enableDiagnostics": false,
+  "eslint.enable": false
+}
