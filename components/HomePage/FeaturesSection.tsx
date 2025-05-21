@@ -3,8 +3,10 @@ export const FeaturesSection = () => {
         <div className="w-full py-10 bg-gray-100">
             <section className="flex flex-col items-center justify-center gap-4 py-8 md:py-10 mx-5">
                 <div className="inline-block max-w-lg text-center justify-center">
-                    <h1 className="text-2xl font-bold">Características</h1>
-                    <p className="mt-4 text-gray-600">
+                    <h1 className="text-3xl font-bold mb-10">Características</h1>
+                    <div className="w-56 mx-auto mb-4 bg-red-400 h-1 rounded-full">
+                    </div>
+                    <p className="mt-10 text-gray-600">
                         Aquí puedes encontrar una lista de las características que ofrece nuestra aplicación.
                     </p>
                 </div>
