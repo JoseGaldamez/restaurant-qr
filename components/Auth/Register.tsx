@@ -1,27 +1,71 @@
 'use client';
+import { RegisterDTO } from '@/models/registerDTO.model';
+import { signup } from '@/server/auth';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+import { showToast } from 'nextjs-toast-notify';
+import { useState } from 'react';
 
 export const Register = () => {
 
     const router = useRouter();
+    const [dataForm, setdataForm] = useState<RegisterDTO>({
+        name: '',
+        email: '',
+        password: '',
+        terms: false,
+    });
 
-    const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    const [loading, setLoading] = useState<boolean>(false);
+
+    const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        const formData = new FormData(e.currentTarget);
-        const data = {
-            name: formData.get('name'),
-            restaurant: formData.get('restaurant'),
-            email: formData.get('email'),
-            password: formData.get('password'),
-        };
-        console.log(data);
+        // validate terms
+        if (!dataForm.terms) {
+            showToast.error("¡Debes aceptar los términos y condiciones!", {
+                duration: 4000,
+                progress: true,
+                position: "bottom-right",
+                transition: "bottomToTopBounce",
+                icon: '',
+                sound: false,
+            });
+            return;
+        }
 
         // validate data
+        if (dataForm.name && dataForm.email && dataForm.password) {
+            setLoading(true);
+            try {
+                const success = await signup(dataForm);
+                if (!success) {
+                    showToast.error("¡Error al registrarse! Intenta de nuevo.", {
+                        duration: 4000,
+                        progress: true,
+                        position: "bottom-right",
+                        transition: "bottomToTopBounce",
+                        icon: '',
+                        sound: false,
+                    });
+                    setLoading(false);
+                    return;
+                }
+                setLoading(false);
+                router.push('/verify-email');
+            } catch (error) {
+                showToast.error("¡Error al registrarse! Intenta de nuevo.", {
+                    duration: 4000,
+                    progress: true,
+                    position: "bottom-right",
+                    transition: "bottomToTopBounce",
+                    icon: '',
+                    sound: false,
+                });
+                setLoading(false);
+                return;
+            }
 
-        if (data.name && data.restaurant && data.email && data.password) {
-            router.push('/verify-email');
         }
 
     };
@@ -38,20 +82,9 @@ export const Register = () => {
                         id="name"
                         name="name"
                         type="text"
+                        value={dataForm.name}
+                        onChange={(e) => setdataForm({ ...dataForm, name: e.target.value })}
                         placeholder="Nombre completo"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition"
-                        required
-                    />
-                </div>
-                <div>
-                    <label htmlFor="restaurant" className="block text-gray-700 font-semibold mb-2">
-                        Nombre del restaurante
-                    </label>
-                    <input
-                        id="restaurant"
-                        name="restaurant"
-                        type="text"
-                        placeholder="Ejemplo: La Parrilla de Juan"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition"
                         required
                     />
@@ -64,6 +97,8 @@ export const Register = () => {
                         id="email"
                         name="email"
                         type="email"
+                        value={dataForm.email}
+                        onChange={(e) => setdataForm({ ...dataForm, email: e.target.value })}
                         placeholder="tu@email.com"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition"
                         required
@@ -77,14 +112,34 @@ export const Register = () => {
                         id="password"
                         name="password"
                         type="password"
+                        value={dataForm.password}
+                        onChange={(e) => setdataForm({ ...dataForm, password: e.target.value })}
                         placeholder="Crea una contraseña"
                         className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition"
                         required
                     />
                 </div>
+                <div className="flex items-center mb-4">
+                    <input
+                        id="terms"
+                        name="terms"
+                        type="checkbox"
+                        checked={dataForm.terms}
+                        onChange={(e) => setdataForm({ ...dataForm, terms: e.target.checked })}
+                        className="w-4 h-4 text-red-500 border-gray-300 rounded focus:ring-red-400"
+                        required
+                    />
+                    <label htmlFor="terms" className="ml-2 text-gray-600">
+                        Acepto los{' '}
+                        <Link href="/terms" className="text-red-500 font-semibold hover:underline">
+                            términos y condiciones
+                        </Link>
+                    </label>
+                </div>
                 <button
+                    disabled={loading || !dataForm.terms}
                     type="submit"
-                    className="w-full bg-red-500 text-white font-bold py-3 rounded-lg shadow hover:bg-red-600 transition"
+                    className="w-full bg-red-500 text-white font-bold py-3 rounded-lg shadow hover:bg-red-600 transition disabled:opacity-50"
                 >
                     Registrarse
                 </button>
