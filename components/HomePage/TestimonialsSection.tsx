@@ -30,7 +30,7 @@ const testimonials = [
     {
         text: "¡Recomiendo RestaurantQR a todos mis colegas! Es una herramienta indispensable para cualquier restaurante que quiera modernizarse y ofrecer una mejor experiencia.",
         author: "— Taquería El Patrón",
-        image: "/testimonials/elpatron.jpg",
+        image: "/testimonials/photo.jpg",
     },
 ];
 
