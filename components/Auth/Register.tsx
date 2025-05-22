@@ -17,9 +17,12 @@ export const Register = () => {
     });
 
     const [loading, setLoading] = useState<boolean>(false);
+    const [showPassword, setShowPassword] = useState(false);
 
     const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+
+        console.log({ dataForm });
 
         // validate terms
         if (!dataForm.terms) {
@@ -38,9 +41,10 @@ export const Register = () => {
         if (dataForm.name && dataForm.email && dataForm.password) {
             setLoading(true);
             try {
-                const success = await signup(dataForm);
-                if (!success) {
-                    showToast.error("¡Error al registrarse! Intenta de nuevo.", {
+                const result = await signup(dataForm);
+
+                if (result.success === false) {
+                    showToast.error(result.message, {
                         duration: 4000,
                         progress: true,
                         position: "bottom-right",
@@ -51,6 +55,14 @@ export const Register = () => {
                     setLoading(false);
                     return;
                 }
+                showToast.success(result.message, {
+                    duration: 4000,
+                    progress: true,
+                    position: "bottom-right",
+                    transition: "bottomToTopBounce",
+                    icon: '',
+                    sound: false,
+                });
                 setLoading(false);
                 router.push('/verify-email');
             } catch (error) {
@@ -108,16 +120,30 @@ export const Register = () => {
                     <label htmlFor="password" className="block text-gray-700 font-semibold mb-2">
                         Contraseña
                     </label>
-                    <input
-                        id="password"
-                        name="password"
-                        type="password"
-                        value={dataForm.password}
-                        onChange={(e) => setdataForm({ ...dataForm, password: e.target.value })}
-                        placeholder="Crea una contraseña"
-                        className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition"
-                        required
-                    />
+                    <div className="relative">
+                        <input
+                            id="password"
+                            type={showPassword ? "text" : "password"}
+                            value={dataForm.password}
+                            onChange={(e) => setdataForm({ ...dataForm, password: e.target.value })}
+                            placeholder="Tu contraseña"
+                            className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-red-400 transition pr-12"
+                            required
+                        />
+                        <button
+                            type="button"
+                            tabIndex={-1}
+                            className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-red-400"
+                            onClick={() => setShowPassword((v) => !v)}
+                            aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                        >
+                            {showPassword ? (
+                                <i className="fa-regular fa-eye-slash"></i>
+                            ) : (
+                                <i className="fa-regular fa-eye"></i>
+                            )}
+                        </button>
+                    </div>
                 </div>
                 <div className="flex items-center mb-4">
                     <input
@@ -141,7 +167,7 @@ export const Register = () => {
                     type="submit"
                     className="w-full bg-red-500 text-white font-bold py-3 rounded-lg shadow hover:bg-red-600 transition disabled:opacity-50"
                 >
-                    Registrarse
+                    {loading ? 'Cargando...' : 'Registrarse'}
                 </button>
             </form>
             <div className="my-6 flex items-center">
