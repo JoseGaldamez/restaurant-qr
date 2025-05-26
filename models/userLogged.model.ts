@@ -4,6 +4,6 @@ export interface UserLogged {
   email: string;
   name: string;
   picture: string;
-  restaurant: string;
+  plan: string;
   created_at: Date;
 }

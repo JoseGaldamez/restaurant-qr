@@ -5,32 +5,32 @@ const testimonials = [
     {
         text: "¡Muy fácil de usar y mis clientes lo aman! Ahora pueden ver el menú desde su teléfono sin esperar. La plataforma es intuitiva y el diseño del menú es muy profesional.",
         author: "— Restaurante El Buen Sabor",
-        image: "/testimonials/photo.jpg",
+        image: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/e9efw9nlcmmxnbmoyojo",
     },
     {
         text: "El QR se genera en segundos, excelente soporte. Cuando tuve una duda, el equipo respondió rápidamente y me ayudó a personalizar mi menú digital.",
         author: "— Café Central",
-        image: "/testimonials/photo.jpg",
+        image: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/e9efw9nlcmmxnbmoyojo",
     },
     {
         text: "Pude actualizar mi menú en minutos, ¡muy recomendable! Me encanta que puedo agregar nuevos platillos y cambiar precios en cualquier momento sin complicaciones.",
         author: "— Pizzería Don Luigi",
-        image: "/testimonials/photo.jpg",
+        image: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/e9efw9nlcmmxnbmoyojo",
     },
     {
         text: "La experiencia para mis clientes mejoró mucho con el menú digital. Ahora todo es más higiénico y moderno, y recibo menos preguntas sobre los ingredientes.",
         author: "— Sushi Express",
-        image: "/testimonials/photo.jpg",
+        image: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/e9efw9nlcmmxnbmoyojo",
     },
     {
         text: "El soporte técnico es rápido y eficiente. Me ayudaron a integrar el menú con mi página web y a personalizar los colores para que coincidan con mi marca.",
         author: "— Hamburguesas La Esquina",
-        image: "/testimonials/photo.jpg",
+        image: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/e9efw9nlcmmxnbmoyojo",
     },
     {
         text: "¡Recomiendo RestaurantQR a todos mis colegas! Es una herramienta indispensable para cualquier restaurante que quiera modernizarse y ofrecer una mejor experiencia.",
         author: "— Taquería El Patrón",
-        image: "/testimonials/photo.jpg",
+        image: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/e9efw9nlcmmxnbmoyojo",
     },
 ];
 

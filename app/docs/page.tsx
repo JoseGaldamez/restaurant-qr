@@ -33,7 +33,7 @@ export default function DocsPage() {
               </span>
               <div className="my-4 flex justify-start">
                 <Image
-                  src="/images/registro.png"
+                  src="https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/esn0jbpetwp9oj4dytoj"
                   alt="Registro"
                   width={400}
                   height={200}
@@ -46,7 +46,7 @@ export default function DocsPage() {
               <span> Revisa tu bandeja de entrada y haz clic en el enlace de verificación.</span>
               <div className="my-4 flex justify-start">
                 <Image
-                  src="/images/verifica.png"
+                  src="https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/t8wii9r9uom03jwdes1w"
                   alt="Verificar correo"
                   width={400}
                   height={200}
@@ -59,7 +59,7 @@ export default function DocsPage() {
               <span> Ingresa al panel, agrega tus platillos, precios y fotos.</span>
               <div className="my-4 flex justify-start">
                 <Image
-                  src="/images/registro.png"
+                  src="https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/esn0jbpetwp9oj4dytoj"
                   alt="Panel de menú"
                   width={400}
                   height={200}
@@ -72,10 +72,10 @@ export default function DocsPage() {
               <span> Genera y descarga el código QR para imprimirlo y colocarlo en tu restaurante.</span>
               <div className="my-4 flex justify-start">
                 <Image
-                  src="/images/registro.png"
+                  src="https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/esn0jbpetwp9oj4dytoj"
                   alt="Código QR"
                   width={400}
-                  height={400}
+                  height={200}
                   className="rounded-lg shadow"
                 />
               </div>

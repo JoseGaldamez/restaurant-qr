@@ -94,7 +94,7 @@ export const Login = () => {
                     type="submit"
                     className="w-full bg-red-500 text-white font-bold py-3 rounded-lg shadow hover:bg-red-600 transition disabled:bg-gray-300"
                 >
-                    Iniciar sesión
+                    {loading ? "Cargando..." : "Iniciar sesión"}
                 </button>
             </form>
             <div className="my-6 flex items-center">

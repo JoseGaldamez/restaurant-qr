@@ -5,8 +5,11 @@ import { logout } from "@/server/auth";
 import { showToast } from "nextjs-toast-notify";
 import { useRouter } from "next/navigation";
 import { UserLogged } from "@/models/userLogged.model";
+import { getLoggedUserInfo } from "@/server/users";
 
-export const MenuDashboard = ({ user }: { user?: UserLogged }) => {
+export const MenuDashboard = () => {
+
+    const [user, setUser] = useState<UserLogged | undefined>(undefined);
 
     const router = useRouter();
     const [open, setOpen] = useState(false);
@@ -14,6 +17,7 @@ export const MenuDashboard = ({ user }: { user?: UserLogged }) => {
 
     // Cierra el menú si se hace clic fuera
     useEffect(() => {
+        getLoggerUser();
         function handleClickOutside(event: MouseEvent) {
             if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
                 setOpen(false);
@@ -22,6 +26,25 @@ export const MenuDashboard = ({ user }: { user?: UserLogged }) => {
         document.addEventListener("mousedown", handleClickOutside);
         return () => document.removeEventListener("mousedown", handleClickOutside);
     }, []);
+
+    const getLoggerUser = async () => {
+
+        const userlogged = await getLoggedUserInfo();
+        if (userlogged.success) {
+            setUser(userlogged.data);
+        } else {
+            showToast.error(userlogged.message, {
+                duration: 4000,
+                progress: true,
+                position: "bottom-right",
+                transition: "bottomToTopBounce",
+                icon: '',
+                sound: false,
+            });
+            router.push("/login");
+        }
+
+    }
 
     const handleLogout = async () => {
 
@@ -86,7 +109,7 @@ export const MenuDashboard = ({ user }: { user?: UserLogged }) => {
                         onClick={() => setOpen((v) => !v)}
                     >
                         <img
-                            src={user?.picture || "/images/profile_placeholder.png"}
+                            src={user?.picture || "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/ruyeubzzmdouzel4nr2s"}
                             alt="Avatar"
                             className="w-10 h-10 rounded-full border-2 border-red-400 object-cover"
                         />

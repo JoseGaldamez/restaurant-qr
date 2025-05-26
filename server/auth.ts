@@ -16,7 +16,6 @@ export async function signup(formData: RegisterDTO) {
     .from("users")
     .select("*")
     .eq("email", formData.email);
-  console.log({ user });
 
   if (user.data && user.data.length > 0) {
     return { success: false, message: "Este usuario ya existe" };

@@ -5,25 +5,25 @@ const team = [
   {
     name: "José Galdámez",
     role: "Desarrollador Full Stack",
-    img: "/images/jose.jpg",
+    img: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/nq0mfsahi60l8xjbmptm",
     bio: "Apasionado por el diseño y la experiencia de usuario. José busca crear interfaces intuitivas que ayuden a los emprendedores a destacar en el mundo digital.",
   },
   {
     name: "Linda Nolasco",
     role: "Analista de Sistemas",
-    img: "/images/linda.png",
+    img: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/e9efw9nlcmmxnbmoyojo",
     bio: "Apasionada por la tecnología, actualmente desarrollando un proyecto que busca optimizar procesos mediante soluciones tecnológicas eficientes.",
   },
   {
     name: "Maryory Rodríguez",
     role: "Desarrollador de Soluciones Digitales",
-    img: "/images/maryory.png",
+    img: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/aomzddqlsb4jjf9mh49l",
     bio: "Me gusta crear tecnología para mejorar cómo los clientes interactúan en un restaurante. Busco siempre la mejor experiencia para el usuario. Soy una persona creativa y me gusta aprender cosas nuevas.",
   },
   {
     name: "José Ramón",
     role: "Product Manager",
-    img: "/images/ramon.jpg",
+    img: "https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/i10ym7x9b5wwnjafhmim",
     bio: "No solo coordina cada etapa del desarrollo, sino que también anticipa tendencias y oportunidades, guiando al equipo hacia soluciones innovadoras y alineadas con los objetivos del negocio.",
   },
 ];

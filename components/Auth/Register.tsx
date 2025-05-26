@@ -22,8 +22,6 @@ export const Register = () => {
     const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        console.log({ dataForm });
-
         // validate terms
         if (!dataForm.terms) {
             showToast.error("¡Debes aceptar los términos y condiciones!", {
