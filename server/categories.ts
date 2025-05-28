@@ -9,16 +9,11 @@ export const getCategoriesByMenuID = async (
   menu_id: string
 ): Promise<CategoryModel[] | null> => {
   const supabase = await createClient();
-  const { data: userData, error: userError } = await supabase.auth.getUser();
-  if (userError || !userData?.user) {
-    redirect("/login");
-  }
 
   const { data, error } = await supabase
     .from("categories")
     .select("id, name, description, menu_id, created_at")
-    .eq("menu_id", menu_id)
-    .eq("user_id", userData.user.id);
+    .eq("menu_id", menu_id);
 
   if (error) {
     return null;
