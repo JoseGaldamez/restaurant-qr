@@ -24,6 +24,21 @@ export const getMenuByUserID = async (): Promise<MenuModel | null> => {
   return data as MenuModel;
 };
 
+export const getMenuByID = async (menu_id: string) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase
+    .from("menus")
+    .select("id, name, user_id, created_at")
+    .eq("id", menu_id)
+    .single();
+
+  if (error) {
+    return null;
+  }
+
+  return data as MenuModel;
+};
+
 export const saveNewMenu = async (name: String) => {
   const supabase = await createClient();
   const { data: userData, error: userError } = await supabase.auth.getUser();

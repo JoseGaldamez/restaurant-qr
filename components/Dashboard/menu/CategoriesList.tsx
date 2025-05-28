@@ -82,7 +82,7 @@ export const CategoriesList = ({ menu_id, setCats }: { menu_id: string, setCats:
 
     return (
         <>
-            <div className='w-full border rounded-lg p-4'>
+            <div className='max-w-5xl mx-auto border rounded-lg p-4'>
                 <div className='flex items-center justify-between mb-4 border-b pb-4'>
                     <div>
                         <h2 className='text-xl font-semibold'>Categorías</h2>
