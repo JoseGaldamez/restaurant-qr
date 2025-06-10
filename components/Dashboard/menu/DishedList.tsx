@@ -22,9 +22,12 @@ import { DishModel } from "@/models/dish.model";
 import { CategoryModel } from "@/models/category.model";
 import { showToast } from "nextjs-toast-notify";
 import { uploadImageToCloudinary } from "@/server/cloudinary";
+import Image from "next/image";
 
 
-export const DishedList = ({ menu_id, categories }: { menu_id: string, categories: CategoryModel[] }) => {
+export const DishedList = (
+    { menu_id, categories }: { menu_id: string, categories: CategoryModel[] }
+) => {
 
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -176,7 +179,7 @@ export const DishedList = ({ menu_id, categories }: { menu_id: string, categorie
 
     return (
         <>
-            <div className="max-w-5xl mx-auto px-4 py-6">
+            <div className="max-w-4xl mx-auto px-4 py-6">
                 <div className="flex items-center justify-between mt-10 mb-3">
                     <div>
                         <h3 className="text-xl font-semibold">Platillos</h3>
@@ -191,7 +194,7 @@ export const DishedList = ({ menu_id, categories }: { menu_id: string, categorie
                     </button>
 
                 </div>
-                <hr />
+                <hr className="my-8" />
 
 
                 {loading && <div className="flex items-center justify-center py-24">
@@ -204,41 +207,56 @@ export const DishedList = ({ menu_id, categories }: { menu_id: string, categorie
                         <p>Aún no hay platos en este menú.</p>
                     </div>
                 )}
-                {dishes && dishes.length > 0 && (
-                    <div className="mt-10 w-full">
-                        {dishes.map((dish) => (
-                            <article key={dish.id} className="bg-white py-4 mb-4 border-b-1">
-                                <div className="flex items-center justify-between mb-2">
-                                    <div className="flex items-start gap-4 w-3/4">
-                                        {dish.picture_url ? (
-                                            <img
-                                                src={"https://res.cloudinary.com/jose-galdamez-dev/image/upload/w_400/f_auto,q_auto/v1/Restaurant-QR/dishes/" + dish.id}
-                                                alt={dish.name}
-                                                className="w-36 h-36 object-cover rounded-lg"
-                                            />
-                                        ) : (
-                                            <div className="w-36 h-36 bg-gray-200 rounded-lg flex items-center justify-center">
-                                                <i className="fa-solid fa-utensils text-gray-400 text-2xl"></i>
-                                            </div>
-                                        )}
-                                        <div className="flex flex-col mt-2">
-                                            <Chip color="primary" variant="flat" className="mb-2" size="sm">
-                                                L. {dish.price.toFixed(2)}
-                                            </Chip>
-                                            <h4 className="text-lg font-semibold">{dish.name}</h4>
-                                            <p className="text-gray-600 mb-2">{dish.description}</p>
-                                        </div>
-                                    </div>
-                                    <div className="w-1/4 flex items-center justify-end">
-                                        <i className="fa-solid fa-pen cursor-pointer"></i>
-                                        <i className="fa-solid fa-trash ml-4 text-red-500 cursor-pointer"></i>
-                                    </div>
-                                </div>
 
-                            </article>
-                        ))}
-                    </div>
-                )}
+
+                {
+                    (categories && categories.length > 0) && (
+                        categories.length > 0 ? (
+                            categories.map((category) => (
+                                <div key={category.id} className="mb-8">
+                                    <h2 className="text-xl font-semibold">{category.name}</h2>
+                                    <div className="w-full h-1 bg-red-300 rounded-lg mb-3"></div>
+                                    <section className="grid grid-cols-1 gap-4">
+                                        {dishes?.filter(dish => dish.category_id === category.id).map(dish => (
+                                            <article key={dish.id} className="bg-white py-4 mb-4 border-b-1">
+                                                <div className="flex items-center justify-between mb-2">
+                                                    <div className="flex items-start gap-4 w-3/4">
+                                                        {dish.picture_url ? (
+                                                            <img
+                                                                src={"https://res.cloudinary.com/jose-galdamez-dev/image/upload/w_400/f_auto,q_auto/v1/Restaurant-QR/dishes/" + dish.id}
+                                                                alt={dish.name}
+                                                                className="w-36 h-36 object-cover rounded-lg"
+                                                            />
+                                                        ) : (
+                                                            <div className="w-36 h-36 bg-gray-200 rounded-lg flex items-center justify-center">
+                                                                <i className="fa-solid fa-utensils text-gray-400 text-2xl"></i>
+                                                            </div>
+                                                        )}
+                                                        <div className="flex flex-col mt-2">
+                                                            <Chip color="primary" variant="flat" className="mb-2" size="sm">
+                                                                L. {dish.price.toFixed(2)}
+                                                            </Chip>
+                                                            <h4 className="text-lg font-semibold">{dish.name}</h4>
+                                                            <p className="text-gray-600 mb-2">{dish.description}</p>
+                                                        </div>
+                                                    </div>
+                                                    <div className="w-1/4 flex items-center justify-end">
+                                                        <i className="fa-solid fa-pen cursor-pointer"></i>
+                                                        <i className="fa-solid fa-trash ml-4 text-red-500 cursor-pointer"></i>
+                                                    </div>
+                                                </div>
+
+                                            </article>
+                                        ))}
+                                    </section>
+                                </div>
+                            ))
+                        ) : (
+                            <p className="text-center text-gray-500">No hay categorías disponibles en este menú.</p>
+                        )
+                    )
+                }
+
             </div>
             <Modal size="5xl" backdrop={'blur'} isOpen={isOpen} placement="top-center" onOpenChange={onOpenChange}>
                 <ModalContent>

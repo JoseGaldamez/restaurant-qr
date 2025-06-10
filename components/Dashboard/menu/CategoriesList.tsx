@@ -82,7 +82,7 @@ export const CategoriesList = ({ menu_id, setCats }: { menu_id: string, setCats:
 
     return (
         <>
-            <div className='max-w-5xl mx-auto border rounded-lg p-4'>
+            <div className='max-w-4xl mx-auto border rounded-lg p-4 '>
                 <div className='flex items-center justify-between mb-4 border-b pb-4'>
                     <div>
                         <h2 className='text-xl font-semibold'>Categorías</h2>
@@ -98,13 +98,13 @@ export const CategoriesList = ({ menu_id, setCats }: { menu_id: string, setCats:
 
                 <div className="flex gap-4">
                     {/* eslint-disable no-console */}
-                    <Chip className={`cursor-pointer bg-slate-300 hover:opacity-80 ${categorySelected === 'todas' ? 'bg-red-400 text-white' : ''}`} variant='bordered' onClick={() => setCategorySelected('todas')} size='lg'>Todas</Chip>
+                    <Chip className={`cursor-pointer bg-slate-300 hover:opacity-80 ${categorySelected === 'todas' ? 'bg-red-400 text-white' : ''}`} onClick={() => setCategorySelected('todas')} size='lg'>Todas</Chip>
                     {/* eslint-disable no-console */}
                     {listOfCategories.map((category) => (
                         <Chip
                             key={category.id}
                             className={`cursor-pointer bg-slate-300 hover:opacity-80 ${categorySelected === category.name ? 'bg-red-400 text-white' : ''}`}
-                            variant='bordered'
+
                             onClick={() => setCategorySelected(category.name)}
                             size='lg'
                         >
