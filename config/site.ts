@@ -11,7 +11,7 @@ export const siteConfig = {
     },
     {
       label: "Documentación",
-      href: "/docs",
+      href: "https://docs.restaurant-qr.com",
     },
     {
       label: "Precios",
@@ -25,7 +25,7 @@ export const siteConfig = {
   navMenuItems: [
     {
       label: "Documentación",
-      href: "/docs",
+      href: "https://docs.restaurant-qr.com",
     },
     {
       label: "Precios",

@@ -42,6 +42,9 @@ export const Navbar = () => {
                 href={item.href}
               >
                 {item.label}
+                {item.href === "https://docs.restaurant-qr.com" && (
+                  <i className="fa-solid fa-arrow-up-right-from-square ml-2 text-xs"></i>
+                )}
               </NextLink>
             </NavbarItem>
           ))}
@@ -75,6 +78,9 @@ export const Navbar = () => {
             <NavbarMenuItem key={`${item}-${index}`}>
               <Link color={"foreground"} href={item.href} size="lg">
                 {item.label}
+                {item.href === "https://docs.restaurant-qr.com" && (
+                  <i className="fa-solid fa-arrow-up-right-from-square ml-2 text-xs"></i>
+                )}
               </Link>
             </NavbarMenuItem>
           ))}
