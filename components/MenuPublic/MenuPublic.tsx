@@ -23,11 +23,12 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
     const [menuSelected, setmenuSelected] = useState<MenuModel | null>(null);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [dishes, setDishes] = useState<DishModel[]>([]);
+    const [quantityByDish, setQuantityByDish] = useState<Record<string, number>>({});
     const [selectedPlates, setSelectedPlates] = useState<DishModel[]>([]);
 
 
     useEffect(() => {
-        console.log(mesa);
+
         getMenu();
     }, [menu_id]);
 
@@ -37,6 +38,7 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
             const created = await realizarPedido({
                 plates: selectedPlates,
                 mesa: mesa,
+                cantidadPorPlato: quantityByDish,
                 pedidoNumero: 130
             });
 
@@ -46,6 +48,10 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
 
         } catch (error) {
 
+            showToast.error("Error al realizar el pedido", {
+                duration: 4000,
+                progress: true,
+            });
         }
     }
 
@@ -103,6 +109,13 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
         setCategories(cats);
         setDishes(dish);
 
+        const initialQuantity: Record<string, number> = {};
+        dish.forEach(d => {
+            initialQuantity[d.id] = 1; // Inicializa la cantidad de cada plato en 1
+        });
+
+        setQuantityByDish(initialQuantity);
+
         setLoading(false);
     }
 
@@ -113,6 +126,14 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
                 <Spinner classNames={{ label: "text-red-300" }} label="Cargando..." variant="dots" color="danger" size="lg" />
             </div>
         );
+    }
+
+    const handleQuantityChange = (dishId: string, change: number) => {
+        setQuantityByDish(prev => {
+            const newQuantity = (prev[dishId] || 1) + change;
+            if (newQuantity < 1) return prev;
+            return { ...prev, [dishId]: newQuantity };
+        });
     }
 
     return (
@@ -139,37 +160,57 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
                                 <div className="w-full h-1 bg-red-300 rounded-lg mb-3"></div>
                                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                     {dishes.filter(dish => dish.category_id === category.id).map(dish => (
-                                        <article key={dish.id} className={`mb-2 flex items-center justify-between border-b-1 pb-5 ${selectedPlates.some(p => p.id === dish.id) ? 'bg-red-100' : ''}`} onClick={() => {
-                                            if (selectedPlates.some(p => p.id === dish.id)) {
-                                                setSelectedPlates(selectedPlates.filter(p => p.id !== dish.id));
-                                            } else {
-                                                setSelectedPlates([...selectedPlates, dish]);
-                                            }
-                                        }}>
-                                            <div className="w-1/3">
-                                                <Image
-                                                    src={"https://res.cloudinary.com/jose-galdamez-dev/image/upload/w_400/f_auto,q_auto/v1/Restaurant-QR/dishes/" + dish.id}
-                                                    alt={dish.name}
-                                                    width={400}
-                                                    height={400}
-                                                    priority
-                                                    className="rounded-lg w-full aspect-square object-cover pt-3"
-                                                    style={{ objectFit: "cover", aspectRatio: "1 / 1" }}
-                                                />
-                                            </div>
-                                            <div className="w-2/3 pl-4">
-                                                <h3 className="text-lg font-semibold">
-                                                    {dish.name}
-                                                </h3>
-                                                <p className="text-gray-600">
-                                                    {dish.description.substring(0, 50)}{dish.description.length > 50 ? '...' : ''}
-                                                </p>
-
-                                                <div className="text-red-500 font-bold mt-2 text-right px-5">
-                                                    L. {dish.price}
+                                        <div key={dish.id} className="border-b-1 pb-5">
+                                            <article className={`mb-2 flex items-center justify-between  ${selectedPlates.some(p => p.id === dish.id) ? 'bg-red-100' : ''}`}>
+                                                <div className="w-1/3">
+                                                    <Image
+                                                        src={"https://res.cloudinary.com/jose-galdamez-dev/image/upload/w_400/f_auto,q_auto/v1/Restaurant-QR/dishes/" + dish.id}
+                                                        alt={dish.name}
+                                                        width={400}
+                                                        height={400}
+                                                        priority
+                                                        className="rounded-lg w-full aspect-square object-cover pt-3"
+                                                        style={{ objectFit: "cover", aspectRatio: "1 / 1" }}
+                                                    />
                                                 </div>
+                                                <div className="w-2/3 pl-4">
+                                                    <h3 className="text-lg font-semibold">
+                                                        {dish.name}
+                                                    </h3>
+                                                    <p className="text-gray-600">
+                                                        {dish.description.substring(0, 50)}{dish.description.length > 50 ? '...' : ''}
+                                                    </p>
+
+                                                    <div className="text-red-500 font-bold mt-2 text-right px-5">
+                                                        L. {dish.price}
+                                                    </div>
+                                                </div>
+                                            </article>
+                                            <div id="quantity" className="text-center w-full flex justify-end items-center">
+                                                <div className="flex items-center justify-end gap-2 mt-2 mr-5">
+                                                    <button onClick={() => handleQuantityChange(dish.id, -1)} className="text-sm bg-slate-200 p-3 rounded-lg">-</button>
+                                                    <span className="mx-2">
+                                                        {quantityByDish[dish.id] || 1}
+                                                    </span>
+                                                    <button onClick={() => handleQuantityChange(dish.id, 1)} className="text-sm bg-slate-200 p-3 rounded-lg">+</button>
+                                                </div>
+                                                <Button
+                                                    onPress={() => {
+                                                        if (selectedPlates.some(p => p.id === dish.id)) {
+                                                            setSelectedPlates(selectedPlates.filter(p => p.id !== dish.id));
+                                                        } else {
+                                                            const newDish = { ...dish, quantity: quantityByDish[dish.id] || 1 };
+                                                            setSelectedPlates([...selectedPlates, newDish]);
+                                                        }
+                                                    }}
+                                                    color={selectedPlates.some(p => p.id === dish.id) ? 'danger' : 'default'}
+                                                    variant={selectedPlates.some(p => p.id === dish.id) ? 'solid' : 'bordered'}
+                                                    className="text-xs"
+                                                >
+                                                    {selectedPlates.some(p => p.id === dish.id) ? 'Quitar del pedido' : 'Agregar al pedido'}
+                                                </Button>
                                             </div>
-                                        </article>
+                                        </div>
                                     ))}
                                 </section>
                             </div>

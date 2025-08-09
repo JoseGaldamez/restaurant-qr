@@ -88,12 +88,13 @@ export const Dashboard = () => {
                             <ModalHeader className="flex flex-col gap-1">Pedido: {selectedPedido?.id}</ModalHeader>
                             <ModalBody>
                                 <h2 className="text-lg font-semibold mb-2">Detalles del pedido</h2>
+                                <p className="text-gray-600 mb-4">Mesa: {selectedPedido?.mesa}</p>
                                 {
                                     selectedPedido.plates && selectedPedido.plates.length > 0 ? (
                                         <ul className="list-disc pl-5">
                                             {selectedPedido.plates.map((plate: any, index: number) => (
                                                 <li key={index} className="text-gray-700">
-                                                    {plate.name} - 1
+                                                    {plate.name} (Cantidad: {plate.quantity || 1})
                                                 </li>
                                             ))}
                                         </ul>

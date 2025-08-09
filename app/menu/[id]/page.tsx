@@ -14,7 +14,7 @@ export default async function MenuPage({ params }: MenuPageProps) {
     }
 
     return (
-        <div>
+        <div className="mb-20">
             <MenuPublic menu_id={id} />
         </div>
     );
