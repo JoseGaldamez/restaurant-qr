@@ -92,14 +92,7 @@ export const MenuDashboard = () => {
                                 QR
                             </Link>
                         </li>
-                        <li>
-                            <Link
-                                href="/dashboard/settings"
-                                className="text-gray-700 hover:text-red-500 font-medium"
-                            >
-                                Personalización
-                            </Link>
-                        </li>
+
                     </ul>
                 </div>
                 {/* Avatar y menú desplegable */}
@@ -132,13 +125,7 @@ export const MenuDashboard = () => {
                     </button>
                     {open && (
                         <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg pt-2 z-50 overflow-hidden">
-                            <Link
-                                href="/dashboard/profile"
-                                className="block px-4 py-2 text-gray-700 hover:bg-gray-100"
-                            >
-                                Perfil
-                            </Link>
-                            <hr />
+
                             <button onClick={handleLogout}
                                 className="w-full text-left px-4 py-2 bg-gray-100 text-red-400 hover:bg-red-500 hover:text-white focus:outline-none"
                             // onClick={handleLogout}

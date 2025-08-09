@@ -5,22 +5,49 @@ import { MenuModel } from "@/models/menu.model";
 import { getCategoriesByMenuID } from "@/server/categories";
 import { getDishesByMenuID } from "@/server/dishes";
 import { getMenuByID } from "@/server/menus";
+import { realizarPedido } from "@/server/pedidos";
+import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
 import Image from "next/image";
+import { useRouter, useSearchParams } from "next/navigation";
 import { showToast } from "nextjs-toast-notify";
 import { useEffect, useState } from "react"
 
 export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
 
+    const router = useRouter();
+    const searchParams = useSearchParams();
+    const mesa = searchParams.get('mesa');
+
     const [loading, setLoading] = useState(true);
     const [menuSelected, setmenuSelected] = useState<MenuModel | null>(null);
     const [categories, setCategories] = useState<CategoryModel[]>([]);
     const [dishes, setDishes] = useState<DishModel[]>([]);
+    const [selectedPlates, setSelectedPlates] = useState<DishModel[]>([]);
 
 
     useEffect(() => {
+        console.log(mesa);
         getMenu();
     }, [menu_id]);
+
+    const createOrder = async () => {
+
+        try {
+            const created = await realizarPedido({
+                plates: selectedPlates,
+                mesa: mesa,
+                pedidoNumero: 130
+            });
+
+            setSelectedPlates([]);
+
+            router.push("/menu/complete");
+
+        } catch (error) {
+
+        }
+    }
 
     const getMenu = async () => {
         setLoading(true);
@@ -94,6 +121,7 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
                 <Image
                     src="https://res.cloudinary.com/jose-galdamez-dev/image/upload/f_auto,q_auto/v1/Restaurant-QR/restaurants/c62pifzzif6p4zv7kkff"
                     alt="Logo del menú"
+                    priority
                     className="mx-auto py-4 rounded-full"
                     width={100} height={100}
                 />
@@ -111,14 +139,21 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
                                 <div className="w-full h-1 bg-red-300 rounded-lg mb-3"></div>
                                 <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
                                     {dishes.filter(dish => dish.category_id === category.id).map(dish => (
-                                        <article key={dish.id} className="mb-2 flex items-start justify-between border-b-1 pb-5">
+                                        <article key={dish.id} className={`mb-2 flex items-center justify-between border-b-1 pb-5 ${selectedPlates.some(p => p.id === dish.id) ? 'bg-red-100' : ''}`} onClick={() => {
+                                            if (selectedPlates.some(p => p.id === dish.id)) {
+                                                setSelectedPlates(selectedPlates.filter(p => p.id !== dish.id));
+                                            } else {
+                                                setSelectedPlates([...selectedPlates, dish]);
+                                            }
+                                        }}>
                                             <div className="w-1/3">
                                                 <Image
                                                     src={"https://res.cloudinary.com/jose-galdamez-dev/image/upload/w_400/f_auto,q_auto/v1/Restaurant-QR/dishes/" + dish.id}
                                                     alt={dish.name}
                                                     width={400}
                                                     height={400}
-                                                    className="rounded-lg w-full aspect-square object-cover"
+                                                    priority
+                                                    className="rounded-lg w-full aspect-square object-cover pt-3"
                                                     style={{ objectFit: "cover", aspectRatio: "1 / 1" }}
                                                 />
                                             </div>
@@ -144,6 +179,11 @@ export const MenuPublic = ({ menu_id }: { menu_id: string }) => {
                     )
                 }
             </section>
+            <div className="fixed bottom-0 left-0 right-0 bg-white shadow-md">
+                <footer className="text-center p-4">
+                    <Button disabled={selectedPlates.length === 0} onClick={createOrder} variant="solid" className="w-full bg-red-400 text-white text-lg py-5 disabled:bg-slate-200">Realizar pedido</Button>
+                </footer>
+            </div>
         </div>
     )
 }
